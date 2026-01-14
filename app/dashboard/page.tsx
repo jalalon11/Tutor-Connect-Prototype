@@ -2,13 +2,26 @@
 
 import { useAuth } from "@/components/auth-context"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function DashboardPage() {
   const { user, isLoading } = useAuth()
   const router = useRouter()
+  const [minLoadComplete, setMinLoadComplete] = useState(false)
+
+  // Ensure minimum 4 second loading time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinLoadComplete(true)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
+    // Wait for both auth loading and minimum load time
+    if (!minLoadComplete) return
+
     if (!isLoading && !user) {
       router.push("/login")
       return
@@ -24,11 +37,16 @@ export default function DashboardPage() {
         router.push("/dashboard/student")
       }
     }
-  }, [user, isLoading, router])
+  }, [user, isLoading, router, minLoadComplete])
 
   return (
     <div className="flex h-screen items-center justify-center bg-background">
-      <div className="text-muted-foreground">Redirecting...</div>
+      <div className="flex flex-col items-center gap-6">
+        <span className="book-loader"></span>
+        <p className="text-muted-foreground text-sm animate-pulse">
+          Preparing your dashboard...
+        </p>
+      </div>
     </div>
   )
 }
