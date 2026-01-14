@@ -1,9 +1,23 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap, Briefcase, BookOpen, ArrowRight } from "lucide-react"
+import { GraduationCap, Briefcase, BookOpen, ArrowRight, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 export default function RegisterChoicePage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate loading state for smooth transition
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 800)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Branding */}
@@ -33,69 +47,82 @@ export default function RegisterChoicePage() {
 
       {/* Right Panel - Role Selection */}
       <div className="flex-1 flex items-center justify-center p-8 bg-background">
-        <div className="w-full max-w-lg">
-          {/* Mobile Logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <GraduationCap className="h-5 w-5 text-primary-foreground" />
+        {isLoading ? (
+          // Loading State
+          <div className="flex flex-col items-center justify-center gap-4 animate-pulse">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <Loader2 className="h-6 w-6 text-primary animate-spin" />
             </div>
-            <span className="text-xl font-semibold">Tutor Connect</span>
+            <p className="text-muted-foreground text-sm">Loading...</p>
           </div>
+        ) : (
+          // Content with fade-in animation
+          <div
+            className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-500"
+          >
+            {/* Mobile Logo */}
+            <div className="flex items-center gap-3 mb-8 lg:hidden">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
+                <GraduationCap className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <span className="text-xl font-semibold">Tutor Connect</span>
+            </div>
 
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-semibold">Create an account</h2>
-            <p className="text-muted-foreground mt-1">Choose how you want to use Tutor Connect</p>
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold">Create an account</h2>
+              <p className="text-muted-foreground mt-1">Choose how you want to use Tutor Connect</p>
+            </div>
+
+            <div className="space-y-4">
+              {/* Teacher Option */}
+              <Link href="/register/teacher" className="block">
+                <Card className="hover:border-primary hover:shadow-md transition-all duration-300 cursor-pointer">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                        <Briefcase className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold">I'm an Educator</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Offer tutoring services and connect with students seeking help
+                        </p>
+                      </div>
+                      <ArrowRight className="h-5 w-5 text-muted-foreground mt-1" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              {/* Student Option */}
+              <Link href="/register/student" className="block">
+                <Card className="hover:border-primary hover:shadow-md transition-all duration-300 cursor-pointer">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                        <BookOpen className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold">I'm a Student</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Find tutors or post requests for subjects you need help with
+                        </p>
+                      </div>
+                      <ArrowRight className="h-5 w-5 text-muted-foreground mt-1" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+
+            <p className="mt-8 text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary hover:underline font-medium">
+                Sign in
+              </Link>
+            </p>
           </div>
-
-          <div className="space-y-4">
-            {/* Teacher Option */}
-            <Link href="/register/teacher" className="block">
-              <Card className="hover:border-primary transition-colors cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <Briefcase className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold">I'm an Educator</h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Offer tutoring services and connect with students seeking help
-                      </p>
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-muted-foreground mt-1" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* Student Option */}
-            <Link href="/register/student" className="block">
-              <Card className="hover:border-primary transition-colors cursor-pointer">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <BookOpen className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold">I'm a Student</h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Find tutors or post requests for subjects you need help with
-                      </p>
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-muted-foreground mt-1" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </div>
-
-          <p className="mt-8 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="text-primary hover:underline font-medium">
-              Sign in
-            </Link>
-          </p>
-        </div>
+        )}
       </div>
     </div>
   )
