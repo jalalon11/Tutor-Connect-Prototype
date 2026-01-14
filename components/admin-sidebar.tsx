@@ -39,14 +39,9 @@ const navItems = [
         value: "overview",
     },
     {
-        title: "Pending Teachers",
-        icon: Clock,
-        value: "pending-teachers",
-    },
-    {
-        title: "Approved Teachers",
+        title: "Manage Teachers",
         icon: UserCheck,
-        value: "approved-teachers",
+        value: "manage-teachers",
     },
     {
         title: "User Management",

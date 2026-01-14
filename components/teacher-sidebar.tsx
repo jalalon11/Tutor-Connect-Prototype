@@ -23,6 +23,7 @@ import {
     Settings,
     LogOut,
     GraduationCap,
+    User,
 } from "lucide-react"
 import { useAuth } from "./auth-context"
 
@@ -36,6 +37,11 @@ const navItems = [
         title: "Dashboard",
         icon: LayoutDashboard,
         value: "dashboard",
+    },
+    {
+        title: "My Profile",
+        icon: User,
+        value: "my-profile",
     },
     {
         title: "My Services",

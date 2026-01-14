@@ -10,8 +10,7 @@ import { useEffect, useState } from "react"
 
 const viewTitles: Record<string, string> = {
     overview: "Dashboard Overview",
-    "pending-teachers": "Pending Teachers",
-    "approved-teachers": "Approved Teachers",
+    "manage-teachers": "Manage Teachers",
     "user-management": "User Management",
     "activity-logs": "Activity Logs",
 }

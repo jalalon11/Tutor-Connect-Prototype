@@ -18,8 +18,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Briefcase, Users, TrendingUp, AlertCircle, MoreHorizontal, MapPin, Clock, PlusCircle } from "lucide-react"
-import { mockJobs, mockApplications, mockTutorRequests } from "@/lib/mock-data"
+import { Briefcase, Users, TrendingUp, AlertCircle, MoreHorizontal, MapPin, Clock, PlusCircle, Phone, Mail, GraduationCap, Award, Save, X, Plus } from "lucide-react"
+import { mockJobs, mockApplications, mockTutorRequests, mockUsers } from "@/lib/mock-data"
 import { useAuth } from "./auth-context"
 
 interface TeacherDashboardProps {
@@ -44,6 +44,21 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
     const [formLoading, setFormLoading] = useState(false)
     const [formSuccess, setFormSuccess] = useState(false)
 
+    // Profile editing state
+    const [profileData, setProfileData] = useState({
+        phone: "",
+        address: "",
+        bio: "",
+        subjects: [] as string[],
+        experience: "",
+        education: "",
+        certifications: [] as string[],
+    })
+    const [newSubject, setNewSubject] = useState("")
+    const [newCertification, setNewCertification] = useState("")
+    const [profileLoading, setProfileLoading] = useState(false)
+    const [profileSuccess, setProfileSuccess] = useState(false)
+
     useEffect(() => {
         if (user?.id) {
             const teacherJobs = Object.values(mockJobs).filter((job: any) => job.teacherId === user.id)
@@ -56,11 +71,83 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
             const activeRequests = Object.values(mockTutorRequests).filter((req: any) => req.status === "active")
             setTutorRequests(activeRequests)
+
+            // Load profile data
+            const userKey = Object.keys(mockUsers).find((k) => mockUsers[k].id === user.id)
+            if (userKey) {
+                const userData = mockUsers[userKey]
+                setProfileData({
+                    phone: userData.phone || "",
+                    address: userData.address || "",
+                    bio: userData.bio || "",
+                    subjects: userData.subjects || [],
+                    experience: userData.experience || "",
+                    education: userData.education || "",
+                    certifications: userData.certifications || [],
+                })
+            }
         }
     }, [user])
 
     const totalApplicants = jobs.reduce((sum, job) => sum + (job.applicants || 0), 0)
     const activeJobs = jobs.filter((job) => job.status === "active").length
+
+    // Profile handlers
+    const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+        setProfileData((prev) => ({ ...prev, [name]: value }))
+    }
+
+    const addSubject = () => {
+        if (newSubject.trim() && !profileData.subjects.includes(newSubject.trim())) {
+            setProfileData((prev) => ({
+                ...prev,
+                subjects: [...prev.subjects, newSubject.trim()],
+            }))
+            setNewSubject("")
+        }
+    }
+
+    const removeSubject = (subject: string) => {
+        setProfileData((prev) => ({
+            ...prev,
+            subjects: prev.subjects.filter((s) => s !== subject),
+        }))
+    }
+
+    const addCertification = () => {
+        if (newCertification.trim() && !profileData.certifications.includes(newCertification.trim())) {
+            setProfileData((prev) => ({
+                ...prev,
+                certifications: [...prev.certifications, newCertification.trim()],
+            }))
+            setNewCertification("")
+        }
+    }
+
+    const removeCertification = (cert: string) => {
+        setProfileData((prev) => ({
+            ...prev,
+            certifications: prev.certifications.filter((c) => c !== cert),
+        }))
+    }
+
+    const saveProfile = () => {
+        setProfileLoading(true)
+        // Simulate API call
+        setTimeout(() => {
+            const userKey = Object.keys(mockUsers).find((k) => mockUsers[k].id === user?.id)
+            if (userKey) {
+                mockUsers[userKey] = {
+                    ...mockUsers[userKey],
+                    ...profileData,
+                }
+            }
+            setProfileLoading(false)
+            setProfileSuccess(true)
+            setTimeout(() => setProfileSuccess(false), 2000)
+        }, 500)
+    }
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
@@ -459,8 +546,208 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
         </div>
     )
 
+    // My Profile section
+    const renderMyProfile = () => (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-semibold tracking-tight">My Profile</h2>
+                    <p className="text-muted-foreground">Update your professional information.</p>
+                </div>
+                <Button onClick={saveProfile} disabled={profileLoading} className="gap-2">
+                    <Save className="h-4 w-4" />
+                    {profileLoading ? "Saving..." : "Save Changes"}
+                </Button>
+            </div>
+
+            {profileSuccess && (
+                <Alert>
+                    <AlertDescription>Profile updated successfully!</AlertDescription>
+                </Alert>
+            )}
+
+            <div className="grid gap-6">
+                {/* Contact Information */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Phone className="h-5 w-5" />
+                            Contact Information
+                        </CardTitle>
+                        <CardDescription>Your contact details visible to students</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="phone">Phone Number</Label>
+                                <Input
+                                    id="phone"
+                                    name="phone"
+                                    value={profileData.phone}
+                                    onChange={handleProfileChange}
+                                    placeholder="+63 9XX XXX XXXX"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    value={user?.email || ""}
+                                    disabled
+                                    className="bg-muted"
+                                />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="address">Address</Label>
+                            <Input
+                                id="address"
+                                name="address"
+                                value={profileData.address}
+                                onChange={handleProfileChange}
+                                placeholder="City, Region"
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* About */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>About Me</CardTitle>
+                        <CardDescription>Tell students about yourself and your teaching style</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Textarea
+                            name="bio"
+                            value={profileData.bio}
+                            onChange={handleProfileChange}
+                            placeholder="Write a brief introduction about yourself, your teaching experience, and what makes you a great tutor..."
+                            className="min-h-[120px]"
+                        />
+                    </CardContent>
+                </Card>
+
+                {/* Education & Experience */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <GraduationCap className="h-5 w-5" />
+                            Education & Experience
+                        </CardTitle>
+                        <CardDescription>Your qualifications and teaching experience</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="education">Education</Label>
+                            <Input
+                                id="education"
+                                name="education"
+                                value={profileData.education}
+                                onChange={handleProfileChange}
+                                placeholder="e.g., Bachelor of Science in Mathematics, University Name"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="experience">Years of Experience</Label>
+                            <Input
+                                id="experience"
+                                name="experience"
+                                value={profileData.experience}
+                                onChange={handleProfileChange}
+                                placeholder="e.g., 5 years"
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Subjects */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Briefcase className="h-5 w-5" />
+                            Subjects I Teach
+                        </CardTitle>
+                        <CardDescription>Add the subjects you specialize in</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex gap-2">
+                            <Input
+                                value={newSubject}
+                                onChange={(e) => setNewSubject(e.target.value)}
+                                placeholder="Add a subject..."
+                                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSubject())}
+                            />
+                            <Button type="button" onClick={addSubject} variant="outline">
+                                <Plus className="h-4 w-4" />
+                            </Button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {profileData.subjects.map((subject, index) => (
+                                <Badge key={index} variant="secondary" className="gap-1 pr-1">
+                                    {subject}
+                                    <button
+                                        onClick={() => removeSubject(subject)}
+                                        className="ml-1 hover:bg-muted rounded-full p-0.5"
+                                    >
+                                        <X className="h-3 w-3" />
+                                    </button>
+                                </Badge>
+                            ))}
+                            {profileData.subjects.length === 0 && (
+                                <p className="text-sm text-muted-foreground">No subjects added yet</p>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Certifications */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Award className="h-5 w-5" />
+                            Certifications
+                        </CardTitle>
+                        <CardDescription>Add your teaching certifications and licenses</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex gap-2">
+                            <Input
+                                value={newCertification}
+                                onChange={(e) => setNewCertification(e.target.value)}
+                                placeholder="Add a certification..."
+                                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addCertification())}
+                            />
+                            <Button type="button" onClick={addCertification} variant="outline">
+                                <Plus className="h-4 w-4" />
+                            </Button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            {profileData.certifications.map((cert, index) => (
+                                <Badge key={index} variant="outline" className="gap-1 pr-1">
+                                    {cert}
+                                    <button
+                                        onClick={() => removeCertification(cert)}
+                                        className="ml-1 hover:bg-muted rounded-full p-0.5"
+                                    >
+                                        <X className="h-3 w-3" />
+                                    </button>
+                                </Badge>
+                            ))}
+                            {profileData.certifications.length === 0 && (
+                                <p className="text-sm text-muted-foreground">No certifications added yet</p>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    )
+
     // Render based on active view
     switch (activeView) {
+        case "my-profile":
+            return renderMyProfile()
         case "my-jobs":
             return renderMyJobs()
         case "applicants":

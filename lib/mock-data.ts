@@ -1,4 +1,15 @@
 // Mock data for the entire system
+
+// Available system permissions
+export const systemPermissions = [
+  { id: "review_teachers", name: "Review Teachers", description: "Can approve or reject teacher registrations" },
+  { id: "review_bookings", name: "Review Bookings", description: "Can verify and manage student bookings" },
+  { id: "manage_users", name: "Manage Users", description: "Can edit user profiles and status" },
+  { id: "view_activity_logs", name: "View Activity Logs", description: "Can access system activity logs" },
+  { id: "manage_services", name: "Manage Services", description: "Can edit or remove tutoring services" },
+  { id: "send_announcements", name: "Send Announcements", description: "Can send platform-wide announcements" },
+]
+
 export const mockUsers: Record<string, any> = {
   admin: {
     id: "admin-1",
@@ -9,6 +20,7 @@ export const mockUsers: Record<string, any> = {
     middleName: "",
     role: "admin",
     status: "approved",
+    permissions: ["review_teachers", "review_bookings", "manage_users", "view_activity_logs", "manage_services", "send_announcements"],
     createdAt: new Date("2024-01-01"),
   },
   teacher1: {
@@ -20,7 +32,19 @@ export const mockUsers: Record<string, any> = {
     middleName: "Michael",
     role: "teacher",
     status: "approved",
+    phone: "+63 917 123 4567",
+    address: "123 Main St, Quezon City, Metro Manila",
+    bio: "Experienced mathematics and physics teacher with over 8 years of teaching experience. Passionate about making complex concepts easy to understand.",
+    subjects: ["Mathematics", "Physics", "Statistics"],
+    experience: "8 years",
+    education: "Master of Science in Mathematics, University of the Philippines",
+    certifications: ["Licensed Professional Teacher", "TESDA NC II - Mathematics"],
+    uploadedIds: {
+      governmentId: "/uploads/teacher-1/government-id.jpg",
+      teachingCertificate: "/uploads/teacher-1/teaching-certificate.pdf",
+    },
     createdAt: new Date("2024-01-15"),
+    approvedAt: new Date("2024-01-16"),
   },
   teacher2: {
     id: "teacher-2",
@@ -31,7 +55,63 @@ export const mockUsers: Record<string, any> = {
     middleName: "Marie",
     role: "teacher",
     status: "pending",
+    phone: "+63 918 987 6543",
+    address: "456 Oak Ave, Makati City, Metro Manila",
+    bio: "English literature and writing coach specializing in college preparation and essay writing. I help students express themselves clearly and confidently.",
+    subjects: ["English Literature", "Creative Writing", "Essay Writing"],
+    experience: "5 years",
+    education: "Bachelor of Arts in English Literature, Ateneo de Manila University",
+    certifications: ["Licensed Professional Teacher", "IELTS Certified Trainer"],
+    uploadedIds: {
+      governmentId: "/uploads/teacher-2/passport.jpg",
+      teachingCertificate: "/uploads/teacher-2/prc-license.pdf",
+    },
     createdAt: new Date("2024-02-01"),
+  },
+  teacher3: {
+    id: "teacher-3",
+    email: "miguel@example.com",
+    password: "teacher123",
+    firstName: "Miguel",
+    lastName: "Santos",
+    middleName: "Reyes",
+    role: "teacher",
+    status: "pending",
+    phone: "+63 919 456 7890",
+    address: "789 Rizal Blvd, Pasig City, Metro Manila",
+    bio: "Science teacher with expertise in Chemistry and Biology. I believe in hands-on learning and practical applications of scientific concepts.",
+    subjects: ["Chemistry", "Biology", "General Science"],
+    experience: "6 years",
+    education: "Bachelor of Science in Chemistry, De La Salle University",
+    certifications: ["Licensed Professional Teacher", "Laboratory Safety Certified"],
+    uploadedIds: {
+      governmentId: "/uploads/teacher-3/drivers-license.jpg",
+      teachingCertificate: "/uploads/teacher-3/teaching-cert.pdf",
+      additionalCert: "/uploads/teacher-3/lab-safety-cert.pdf",
+    },
+    createdAt: new Date("2024-02-10"),
+  },
+  teacher4: {
+    id: "teacher-4",
+    email: "anna@example.com",
+    password: "teacher123",
+    firstName: "Anna",
+    lastName: "Cruz",
+    middleName: "Liza",
+    role: "teacher",
+    status: "pending",
+    phone: "+63 920 321 0987",
+    address: "321 Bonifacio St, Taguig City, Metro Manila",
+    bio: "Filipino and Social Studies teacher dedicated to helping students understand our culture and history. I make learning engaging through storytelling.",
+    subjects: ["Filipino", "Social Studies", "Philippine History"],
+    experience: "4 years",
+    education: "Bachelor of Secondary Education, Philippine Normal University",
+    certifications: ["Licensed Professional Teacher"],
+    uploadedIds: {
+      governmentId: "/uploads/teacher-4/national-id.jpg",
+      teachingCertificate: "/uploads/teacher-4/prc-license.pdf",
+    },
+    createdAt: new Date("2024-02-12"),
   },
   student1: {
     id: "student-1",
