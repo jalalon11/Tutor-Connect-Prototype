@@ -18,7 +18,6 @@ import {
   Clock,
   ArrowRight,
   CheckCircle,
-  DollarSign,
   Search,
 } from "lucide-react"
 
@@ -194,7 +193,6 @@ export default function HomePage() {
                             {job.jobType}
                           </span>
                           <span className="flex items-center gap-1 font-medium text-foreground">
-                            <DollarSign className="h-4 w-4" />
                             {job.salary}
                           </span>
                         </div>
