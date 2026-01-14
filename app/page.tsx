@@ -29,6 +29,22 @@ export default function HomePage() {
   const jobs = Object.values(mockJobs).filter((job: any) => job.status === "active")
   const tutorRequests = Object.values(mockTutorRequests).filter((req: any) => req.status === "active")
 
+  // Smooth scroll function for navigation
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault()
+    const element = document.getElementById(sectionId)
+    if (element) {
+      const headerOffset = 80 // Account for sticky header height
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
+
   const handleApply = (type: "job" | "request", id: string) => {
     if (user) {
       // Redirect to appropriate dashboard
@@ -58,13 +74,31 @@ export default function HomePage() {
               <span className="text-xl font-semibold">Tutor Connect</span>
             </div>
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#jobs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href="#jobs"
+                onClick={(e) => {
+                  scrollToSection(e, "jobs")
+                  setActiveTab("jobs")
+                }}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
                 Browse Jobs
               </a>
-              <a href="#requests" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href="#requests"
+                onClick={(e) => {
+                  scrollToSection(e, "jobs")
+                  setActiveTab("requests")
+                }}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
                 Tutor Requests
               </a>
-              <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href="#how-it-works"
+                onClick={(e) => scrollToSection(e, "how-it-works")}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+              >
                 How It Works
               </a>
             </nav>

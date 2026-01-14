@@ -50,14 +50,14 @@ export function LoginForm() {
     <div className="min-h-screen flex">
       {/* Left Panel - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary p-12 flex-col justify-between">
-        <div>
-          <div className="flex items-center gap-3">
+        <Link href="/" className="block hover:opacity-90 transition-opacity">
+          <div className="flex items-center gap-3 cursor-pointer">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground">
               <GraduationCap className="h-6 w-6 text-primary" />
             </div>
             <span className="text-2xl font-semibold text-primary-foreground">Tutor Connect</span>
           </div>
-        </div>
+        </Link>
 
         <div className="space-y-6">
           <h1 className="text-4xl font-bold text-primary-foreground leading-tight">
@@ -69,7 +69,7 @@ export function LoginForm() {
         </div>
 
         <div className="text-sm text-primary-foreground/60">
-          © 2024 Tutor Connect. All rights reserved.
+          © 2026 Tutor Connect. All rights reserved.
         </div>
       </div>
 
