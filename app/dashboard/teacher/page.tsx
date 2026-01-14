@@ -11,8 +11,8 @@ import { useEffect, useState } from "react"
 const viewTitles: Record<string, string> = {
     dashboard: "Dashboard",
     "my-jobs": "My Services",
-    applicants: "Student Applications",
-    "tutor-requests": "Tutor Requests",
+    applicants: "Student Bookings",
+    "tutor-requests": "Student Requests",
 }
 
 export default function TeacherDashboardPage() {

@@ -39,24 +39,19 @@ const navItems = [
         value: "dashboard",
     },
     {
-        title: "Browse Jobs",
+        title: "Find Tutors",
         icon: Briefcase,
         value: "browse-jobs",
     },
     {
-        title: "My Applications",
+        title: "My Bookings",
         icon: FileText,
         value: "applications",
     },
     {
-        title: "Saved Jobs",
+        title: "Saved Tutors",
         icon: BookOpen,
         value: "saved-jobs",
-    },
-    {
-        title: "Post Request",
-        icon: PlusCircle,
-        value: "post-request",
     },
     {
         title: "My Requests",

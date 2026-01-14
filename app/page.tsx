@@ -82,7 +82,7 @@ export default function HomePage() {
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
-                Browse Jobs
+                Find Tutors
               </a>
               <a
                 href="#requests"
@@ -92,7 +92,7 @@ export default function HomePage() {
                 }}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
-                Tutor Requests
+                Student Requests
               </a>
               <a
                 href="#how-it-works"
@@ -152,13 +152,13 @@ export default function HomePage() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-2xl font-semibold tracking-tight">Browse Opportunities</h2>
-                <p className="text-muted-foreground">Find teaching jobs or students needing tutors</p>
+                <h2 className="text-2xl font-semibold tracking-tight">Browse Listings</h2>
+                <p className="text-muted-foreground">Find tutoring services or students needing tutors</p>
               </div>
               <TabsList>
                 <TabsTrigger value="jobs" className="gap-2">
                   <Briefcase className="h-4 w-4" />
-                  Teaching Jobs ({jobs.length})
+                  Tutoring Services ({jobs.length})
                 </TabsTrigger>
                 <TabsTrigger value="requests" className="gap-2">
                   <Users className="h-4 w-4" />
@@ -167,7 +167,7 @@ export default function HomePage() {
               </TabsList>
             </div>
 
-            {/* Teaching Jobs */}
+            {/* Tutoring Services */}
             <TabsContent value="jobs" className="space-y-4">
               {jobs.length > 0 ? (
                 jobs.map((job: any) => (
@@ -178,7 +178,7 @@ export default function HomePage() {
                           <div className="flex items-start justify-between">
                             <div>
                               <h3 className="font-semibold text-lg">{job.title}</h3>
-                              <p className="text-sm text-muted-foreground">Posted by {job.teacherName}</p>
+                              <p className="text-sm text-muted-foreground">Offered by {job.teacherName}</p>
                             </div>
                             <Badge>Active</Badge>
                           </div>
@@ -192,7 +192,7 @@ export default function HomePage() {
                           </div>
                         </div>
                         <Button onClick={() => handleApply("job", job.id)} className="shrink-0">
-                          Apply Now
+                          Book Tutor
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </div>
@@ -202,13 +202,13 @@ export default function HomePage() {
               ) : (
                 <Card>
                   <CardContent className="p-8 text-center">
-                    <p className="text-muted-foreground">No teaching jobs available at the moment.</p>
+                    <p className="text-muted-foreground">No tutoring services available at the moment.</p>
                   </CardContent>
                 </Card>
               )}
             </TabsContent>
 
-            {/* Tutor Requests */}
+            {/* Student Requests */}
             <TabsContent value="requests" id="requests" className="space-y-4">
               {tutorRequests.length > 0 ? (
                 tutorRequests.map((request: any) => (
@@ -284,22 +284,22 @@ export default function HomePage() {
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Post Teaching Jobs</p>
-                    <p className="text-sm text-muted-foreground">Create listings for tutoring opportunities</p>
+                    <p className="font-medium">Offer Tutoring Services</p>
+                    <p className="text-sm text-muted-foreground">Create listings for your tutoring expertise</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Browse Tutor Requests</p>
+                    <p className="font-medium">Browse Student Requests</p>
                     <p className="text-sm text-muted-foreground">Find students looking for help in your subject</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Manage Applications</p>
-                    <p className="text-sm text-muted-foreground">Review and accept student applications</p>
+                    <p className="font-medium">Manage Bookings</p>
+                    <p className="text-sm text-muted-foreground">Review and accept student booking requests</p>
                   </div>
                 </div>
               </CardContent>
@@ -318,8 +318,8 @@ export default function HomePage() {
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Browse Teaching Jobs</p>
-                    <p className="text-sm text-muted-foreground">Apply to tutoring opportunities from verified teachers</p>
+                    <p className="font-medium">Find Tutors</p>
+                    <p className="text-sm text-muted-foreground">Book tutoring sessions from verified teachers</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -332,8 +332,8 @@ export default function HomePage() {
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Track Applications</p>
-                    <p className="text-sm text-muted-foreground">Monitor your application status</p>
+                    <p className="font-medium">Track Bookings</p>
+                    <p className="text-sm text-muted-foreground">Monitor your booking request status</p>
                   </div>
                 </div>
               </CardContent>

@@ -125,7 +125,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                 <DialogHeader>
                     <DialogTitle>Post a New Service</DialogTitle>
                     <DialogDescription>
-                        Create a new tutoring service for students to apply.
+                        Create a new tutoring service for students to book.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -244,7 +244,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Applicants</CardTitle>
+                        <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
                         <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -255,7 +255,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Tutor Requests</CardTitle>
+                        <CardTitle className="text-sm font-medium">Student Requests</CardTitle>
                         <TrendingUp className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -283,7 +283,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                         <Badge variant={job.status === "active" ? "default" : "secondary"}>
                                             {job.status}
                                         </Badge>
-                                        <span className="text-sm text-muted-foreground">{job.applicants} applicants</span>
+                                        <span className="text-sm text-muted-foreground">{job.applicants} bookings</span>
                                     </div>
                                 </div>
                             ))}
@@ -325,7 +325,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                         <div className="flex items-center gap-4 pt-2">
                                             <span className="text-sm font-medium">{job.salary}</span>
                                             <span className="text-sm text-muted-foreground">•</span>
-                                            <span className="text-sm text-muted-foreground">{job.applicants} applicants</span>
+                                            <span className="text-sm text-muted-foreground">{job.applicants} bookings</span>
                                         </div>
                                     </div>
                                     <Button variant="ghost" size="icon">
@@ -347,11 +347,11 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
         </div>
     )
 
-    // Applicants View
+    // Student Bookings View
     const renderApplicants = () => (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-semibold tracking-tight">Student Applications</h2>
+                <h2 className="text-2xl font-semibold tracking-tight">Student Bookings</h2>
                 <p className="text-muted-foreground">Review students who want to be tutored by you.</p>
             </div>
 
@@ -367,10 +367,10 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                         </Avatar>
                                         <div className="space-y-1">
                                             <h3 className="font-semibold">{app.studentName || "Student"}</h3>
-                                            <p className="text-sm text-muted-foreground">Applied for: {app.jobTitle}</p>
+                                            <p className="text-sm text-muted-foreground">Requested: {app.jobTitle}</p>
                                             <p className="text-sm mt-2">{app.coverLetter}</p>
                                             <p className="text-xs text-muted-foreground mt-2">
-                                                Applied on {app.createdAt?.toLocaleDateString()}
+                                                Requested on {app.createdAt?.toLocaleDateString()}
                                             </p>
                                         </div>
                                     </div>
@@ -398,18 +398,18 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
             ) : (
                 <Card>
                     <CardContent className="p-6 text-center">
-                        <p className="text-muted-foreground">No applications received yet.</p>
+                        <p className="text-muted-foreground">No booking requests received yet.</p>
                     </CardContent>
                 </Card>
             )}
         </div>
     )
 
-    // Tutor Requests View
+    // Student Requests View
     const renderTutorRequests = () => (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-semibold tracking-tight">Tutor Requests</h2>
+                <h2 className="text-2xl font-semibold tracking-tight">Student Requests</h2>
                 <p className="text-muted-foreground">Browse students looking for tutors in your subjects.</p>
             </div>
 
@@ -452,7 +452,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
             ) : (
                 <Card>
                     <CardContent className="p-6 text-center">
-                        <p className="text-muted-foreground">No tutor requests at the moment.</p>
+                        <p className="text-muted-foreground">No student requests at the moment.</p>
                     </CardContent>
                 </Card>
             )}

@@ -43,12 +43,12 @@ const navItems = [
         value: "my-jobs",
     },
     {
-        title: "Student Applications",
+        title: "Student Bookings",
         icon: Users,
         value: "applicants",
     },
     {
-        title: "Tutor Requests",
+        title: "Student Requests",
         icon: BookOpen,
         value: "tutor-requests",
     },
