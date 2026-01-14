@@ -9,9 +9,9 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const viewTitles: Record<string, string> = {
-    overview: "Dashboard Overview",
-    "manage-teachers": "Manage Teachers",
-    "user-management": "User Management",
+    dashboard: "Dashboard",
+    "job-postings": "Job Postings",
+    verification: "Teacher Verification",
     "activity-logs": "Activity Logs",
 }
 
@@ -22,7 +22,7 @@ export default function AdminLayout({
 }) {
     const { user, isLoading } = useAuth()
     const router = useRouter()
-    const [activeView, setActiveView] = useState("overview")
+    const [activeView, setActiveView] = useState("dashboard")
 
     useEffect(() => {
         if (!isLoading && user?.role !== "admin") {

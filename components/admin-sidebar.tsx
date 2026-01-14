@@ -16,14 +16,13 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
-    LayoutDashboard,
-    Users,
+    Briefcase,
     UserCheck,
-    Clock,
     Activity,
-    Settings,
     LogOut,
     GraduationCap,
+    LayoutDashboard,
+    MessageSquare,
 } from "lucide-react"
 import { useAuth } from "./auth-context"
 
@@ -34,19 +33,24 @@ interface AdminSidebarProps {
 
 const navItems = [
     {
-        title: "Overview",
+        title: "Dashboard",
         icon: LayoutDashboard,
-        value: "overview",
+        value: "dashboard",
     },
     {
-        title: "Manage Teachers",
+        title: "Job Postings",
+        icon: Briefcase,
+        value: "job-postings",
+    },
+    {
+        title: "Teacher Verification",
         icon: UserCheck,
-        value: "manage-teachers",
+        value: "verification",
     },
     {
-        title: "User Management",
-        icon: Users,
-        value: "user-management",
+        title: "Forum",
+        icon: MessageSquare,
+        value: "forum",
     },
     {
         title: "Activity Logs",
@@ -66,7 +70,7 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                         <GraduationCap className="h-4 w-4 text-primary-foreground" />
                     </div>
                     <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-                        <span className="text-sm font-semibold">Tutor Connect</span>
+                        <span className="text-sm font-semibold">TeachConnect</span>
                         <span className="text-xs text-muted-foreground">Admin Panel</span>
                     </div>
                 </div>
@@ -91,22 +95,6 @@ export function AdminSidebar({ activeView, onViewChange }: AdminSidebarProps) {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <SidebarSeparator />
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>Settings</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton tooltip="Settings">
-                                    <Settings className="h-4 w-4" />
-                                    <span>Settings</span>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

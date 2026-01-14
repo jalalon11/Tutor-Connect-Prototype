@@ -9,7 +9,7 @@ interface User {
   email: string
   firstName: string
   lastName: string
-  role: "admin" | "teacher" | "student"
+  role: "admin" | "teacher"
   status: "approved" | "pending"
 }
 

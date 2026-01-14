@@ -9,8 +9,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Tutor Connect - Teacher Job Board",
-  description: "Connect teachers with students and opportunities",
+  title: "TeachConnect - Teaching Job Platform",
+  description: "Professional teaching job platform connecting educators with opportunities",
   generator: 'v0.app'
 }
 

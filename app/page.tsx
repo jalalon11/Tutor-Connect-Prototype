@@ -6,35 +6,46 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
+import { Input } from "@/components/ui/input"
 import { useAuth } from "@/components/auth-context"
-import { mockJobs, mockTutorRequests } from "@/lib/mock-data"
+import { mockJobs } from "@/lib/mock-data"
 import {
   GraduationCap,
   Briefcase,
   Users,
-  BookOpen,
   MapPin,
   Clock,
   ArrowRight,
   CheckCircle,
+  DollarSign,
+  Search,
 } from "lucide-react"
 
 export default function HomePage() {
   const { user } = useAuth()
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState("jobs")
+  const [searchQuery, setSearchQuery] = useState("")
 
-  const jobs = Object.values(mockJobs).filter((job: any) => job.status === "active")
-  const tutorRequests = Object.values(mockTutorRequests).filter((req: any) => req.status === "active")
+  const jobs = Object.values(mockJobs).filter((job: any) => job.status === "open")
+  
+  // Filter jobs based on search query
+  const filteredJobs = jobs.filter((job: any) => {
+    if (!searchQuery) return true
+    const query = searchQuery.toLowerCase()
+    return (
+      job.title?.toLowerCase().includes(query) ||
+      job.subject?.toLowerCase().includes(query) ||
+      job.location?.toLowerCase().includes(query) ||
+      job.school?.toLowerCase().includes(query)
+    )
+  })
 
-  // Smooth scroll function for navigation
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault()
     const element = document.getElementById(sectionId)
     if (element) {
-      const headerOffset = 80 // Account for sticky header height
+      const headerOffset = 80
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset
 
@@ -45,19 +56,15 @@ export default function HomePage() {
     }
   }
 
-  const handleApply = (type: "job" | "request", id: string) => {
+  const handleApply = (id: string) => {
     if (user) {
-      // Redirect to appropriate dashboard
-      if (type === "job" && user.role === "student") {
-        router.push("/dashboard/student")
-      } else if (type === "request" && user.role === "teacher") {
+      if (user.role === "teacher") {
         router.push("/dashboard/teacher")
       } else {
         router.push("/dashboard")
       }
     } else {
-      // Redirect to login with return URL
-      router.push(`/login?redirect=${type === "job" ? "student" : "teacher"}`)
+      router.push(`/login?redirect=/dashboard`)
     }
   }
 
@@ -71,28 +78,15 @@ export default function HomePage() {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
                 <GraduationCap className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-semibold">Tutor Connect</span>
+              <span className="text-xl font-semibold">TeachConnect</span>
             </div>
             <nav className="hidden md:flex items-center gap-6">
               <a
                 href="#jobs"
-                onClick={(e) => {
-                  scrollToSection(e, "jobs")
-                  setActiveTab("jobs")
-                }}
+                onClick={(e) => scrollToSection(e, "jobs")}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               >
-                Find Tutors
-              </a>
-              <a
-                href="#requests"
-                onClick={(e) => {
-                  scrollToSection(e, "jobs")
-                  setActiveTab("requests")
-                }}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-              >
-                Student Requests
+                Browse Jobs
               </a>
               <a
                 href="#how-it-works"
@@ -106,7 +100,7 @@ export default function HomePage() {
               <Link href="/login">
                 <Button variant="ghost" size="sm">Sign In</Button>
               </Link>
-              <Link href="/register">
+              <Link href="/login">
                 <Button size="sm">Get Started</Button>
               </Link>
             </div>
@@ -118,145 +112,111 @@ export default function HomePage() {
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <Badge variant="secondary" className="mb-4">
-            Connecting Educators & Learners
+            Teaching Opportunities Platform
           </Badge>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-            Find the Perfect Match for Teaching & Learning
+            Find Your Next Teaching Opportunity
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Teachers post tutoring opportunities. Students find tutors or request help.
-            A seamless platform for educational connections.
+            Browse teaching job postings from verified institutions and apply with ease.
+            Join our community of professional educators.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="/register/teacher">
+            <Link href="/login">
               <Button size="lg" className="gap-2">
                 <Briefcase className="h-4 w-4" />
-                Post a Teaching Job
+                Join as Teacher
               </Button>
             </Link>
-            <Link href="/register/student">
-              <Button size="lg" variant="outline" className="gap-2">
-                <BookOpen className="h-4 w-4" />
-                Request a Tutor
-              </Button>
-            </Link>
+            {user?.role === "admin" && (
+              <Link href="/admin/dashboard">
+                <Button size="lg" variant="outline" className="gap-2">
+                  <Users className="h-4 w-4" />
+                  Admin Dashboard
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>
 
       <Separator />
 
-      {/* Job & Request Listings */}
+      {/* Job Listings */}
       <section id="jobs" className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-2xl font-semibold tracking-tight">Browse Listings</h2>
-                <p className="text-muted-foreground">Find tutoring services or students needing tutors</p>
-              </div>
-              <TabsList>
-                <TabsTrigger value="jobs" className="gap-2">
-                  <Briefcase className="h-4 w-4" />
-                  Tutoring Services ({jobs.length})
-                </TabsTrigger>
-                <TabsTrigger value="requests" className="gap-2">
-                  <Users className="h-4 w-4" />
-                  Tutor Requests ({tutorRequests.length})
-                </TabsTrigger>
-              </TabsList>
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold tracking-tight mb-2">Available Teaching Positions</h2>
+            <p className="text-muted-foreground">Browse current job openings posted by our administrators</p>
+          </div>
+          
+          {/* Search Bar */}
+          <div className="mb-6">
+            <div className="relative max-w-xl">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search by job title, subject, location, or school..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
             </div>
+            {searchQuery && (
+              <p className="text-sm text-muted-foreground mt-2">
+                Found {filteredJobs.length} {filteredJobs.length === 1 ? 'job' : 'jobs'} matching "{searchQuery}"
+              </p>
+            )}
+          </div>
 
-            {/* Tutoring Services */}
-            <TabsContent value="jobs" className="space-y-4">
-              {jobs.length > 0 ? (
-                jobs.map((job: any) => (
-                  <Card key={job.id} className="overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 space-y-3">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="font-semibold text-lg">{job.title}</h3>
-                              <p className="text-sm text-muted-foreground">Offered by {job.teacherName}</p>
-                            </div>
-                            <Badge>Active</Badge>
+          <div className="space-y-4">
+            {filteredJobs.length > 0 ? (
+              filteredJobs.map((job: any) => (
+                <Card key={job.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 space-y-3">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="font-semibold text-lg">{job.title}</h3>
+                            <p className="text-sm text-muted-foreground">Posted by Admin</p>
                           </div>
-                          <p className="text-sm">{job.description}</p>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
-                              {job.location}
-                            </span>
-                            <span className="font-medium text-foreground">{job.salary}</span>
-                          </div>
+                          <Badge className="bg-green-500">Active</Badge>
                         </div>
-                        <Button onClick={() => handleApply("job", job.id)} className="shrink-0">
-                          Book Tutor
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
+                        <p className="text-sm leading-relaxed">{job.description}</p>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-4 w-4" />
+                            {job.location}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            {job.jobType}
+                          </span>
+                          <span className="flex items-center gap-1 font-medium text-foreground">
+                            <DollarSign className="h-4 w-4" />
+                            {job.salary}
+                          </span>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <Card>
-                  <CardContent className="p-8 text-center">
-                    <p className="text-muted-foreground">No tutoring services available at the moment.</p>
+                      <Button onClick={() => handleApply(job.id)} className="shrink-0">
+                        Apply Now
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
-              )}
-            </TabsContent>
-
-            {/* Student Requests */}
-            <TabsContent value="requests" id="requests" className="space-y-4">
-              {tutorRequests.length > 0 ? (
-                tutorRequests.map((request: any) => (
-                  <Card key={request.id} className="overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 space-y-3">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="font-semibold text-lg">
-                                {request.subject} Tutor Needed
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                {request.studentName} • {request.gradeLevel}
-                              </p>
-                            </div>
-                            <Badge variant="secondary">Looking for Tutor</Badge>
-                          </div>
-                          <p className="text-sm">{request.description}</p>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
-                              {request.location}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              {request.schedule}
-                            </span>
-                            <span className="font-medium text-foreground">{request.budget}</span>
-                          </div>
-                        </div>
-                        <Button onClick={() => handleApply("request", request.id)} variant="outline" className="shrink-0">
-                          Offer to Tutor
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <Card>
-                  <CardContent className="p-8 text-center">
-                    <p className="text-muted-foreground">No tutor requests at the moment.</p>
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-          </Tabs>
+              ))
+            ) : (
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Briefcase className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="font-semibold text-lg mb-2">No jobs available</h3>
+                  <p className="text-muted-foreground">Check back later for new teaching opportunities.</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </section>
 
@@ -267,7 +227,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-semibold tracking-tight mb-2">How It Works</h2>
-            <p className="text-muted-foreground">Simple steps to connect educators and learners</p>
+            <p className="text-muted-foreground">Simple steps to join our teaching platform</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -278,62 +238,62 @@ export default function HomePage() {
                   <Briefcase className="h-5 w-5" />
                   For Teachers
                 </CardTitle>
-                <CardDescription>Share your expertise and find students</CardDescription>
+                <CardDescription>Join our network of professional educators</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Offer Tutoring Services</p>
-                    <p className="text-sm text-muted-foreground">Create listings for your tutoring expertise</p>
+                    <p className="font-medium">Register & Get Verified</p>
+                    <p className="text-sm text-muted-foreground">Submit your credentials for admin verification</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Browse Student Requests</p>
-                    <p className="text-sm text-muted-foreground">Find students looking for help in your subject</p>
+                    <p className="font-medium">Browse Available Jobs</p>
+                    <p className="text-sm text-muted-foreground">View teaching positions posted by administrators</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Manage Bookings</p>
-                    <p className="text-sm text-muted-foreground">Review and accept student booking requests</p>
+                    <p className="font-medium">Apply with One Click</p>
+                    <p className="text-sm text-muted-foreground">Submit your application through your dashboard</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* For Students */}
+            {/* For Admin */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BookOpen className="h-5 w-5" />
-                  For Students
+                  <Users className="h-5 w-5" />
+                  For Administrators
                 </CardTitle>
-                <CardDescription>Find the perfect tutor for your needs</CardDescription>
+                <CardDescription>Manage your teaching staff efficiently</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Find Tutors</p>
-                    <p className="text-sm text-muted-foreground">Book tutoring sessions from verified teachers</p>
+                    <p className="font-medium">Post Teaching Jobs</p>
+                    <p className="text-sm text-muted-foreground">Create and publish job openings for teachers</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Post Tutor Requests</p>
-                    <p className="text-sm text-muted-foreground">Let teachers know you need help with a subject</p>
+                    <p className="font-medium">Verify Teachers</p>
+                    <p className="text-sm text-muted-foreground">Review and approve teacher registrations</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium">Track Bookings</p>
-                    <p className="text-sm text-muted-foreground">Monitor your booking request status</p>
+                    <p className="font-medium">Manage Applications</p>
+                    <p className="text-sm text-muted-foreground">Track and review teacher applications</p>
                   </div>
                 </div>
               </CardContent>
@@ -351,7 +311,7 @@ export default function HomePage() {
               <CardDescription>Use these credentials to explore the platform</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-lg bg-muted text-center">
                   <p className="text-xs font-medium text-muted-foreground mb-2">Admin</p>
                   <p className="text-xs">admin@teachconnect.com</p>
@@ -361,11 +321,6 @@ export default function HomePage() {
                   <p className="text-xs font-medium text-muted-foreground mb-2">Teacher</p>
                   <p className="text-xs">john@example.com</p>
                   <p className="text-xs text-muted-foreground">teacher123</p>
-                </div>
-                <div className="p-4 rounded-lg bg-muted text-center">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Student</p>
-                  <p className="text-xs">student1@example.com</p>
-                  <p className="text-xs text-muted-foreground">student123</p>
                 </div>
               </div>
             </CardContent>
@@ -378,10 +333,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
-            <span className="font-semibold">Tutor Connect</span>
+            <span className="font-semibold">TeachConnect</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            © 2026 Tutor Connect. All rights reserved.
+            © 2026 TeachConnect. All rights reserved.
           </p>
         </div>
       </footer>

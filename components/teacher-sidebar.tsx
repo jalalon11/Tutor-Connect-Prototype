@@ -16,14 +16,12 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
-    LayoutDashboard,
     Briefcase,
-    Users,
-    BookOpen,
-    Settings,
+    FileText,
     LogOut,
     GraduationCap,
-    User,
+    Settings,
+    MessageSquare,
 } from "lucide-react"
 import { useAuth } from "./auth-context"
 
@@ -34,29 +32,24 @@ interface TeacherSidebarProps {
 
 const navItems = [
     {
-        title: "Dashboard",
-        icon: LayoutDashboard,
-        value: "dashboard",
-    },
-    {
-        title: "My Profile",
-        icon: User,
-        value: "my-profile",
-    },
-    {
-        title: "My Services",
+        title: "Browse Jobs",
         icon: Briefcase,
-        value: "my-jobs",
+        value: "browse-jobs",
     },
     {
-        title: "Student Bookings",
-        icon: Users,
-        value: "applicants",
+        title: "My Applications",
+        icon: FileText,
+        value: "my-applications",
     },
     {
-        title: "Student Requests",
-        icon: BookOpen,
-        value: "tutor-requests",
+        title: "Forum",
+        icon: MessageSquare,
+        value: "forum",
+    },
+    {
+        title: "Settings",
+        icon: Settings,
+        value: "settings",
     },
 ]
 
@@ -71,7 +64,7 @@ export function TeacherSidebar({ activeView, onViewChange }: TeacherSidebarProps
                         <GraduationCap className="h-4 w-4 text-primary-foreground" />
                     </div>
                     <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-                        <span className="text-sm font-semibold">Tutor Connect</span>
+                        <span className="text-sm font-semibold">TeachConnect</span>
                         <span className="text-xs text-muted-foreground">Teacher Portal</span>
                     </div>
                 </div>
@@ -100,21 +93,6 @@ export function TeacherSidebar({ activeView, onViewChange }: TeacherSidebarProps
                     </SidebarGroupContent>
                 </SidebarGroup>
 
-                <SidebarSeparator />
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>Account</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton tooltip="Settings">
-                                    <Settings className="h-4 w-4" />
-                                    <span>Settings</span>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
             </SidebarContent>
 
             <SidebarFooter className="p-4">

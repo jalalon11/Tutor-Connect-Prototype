@@ -1,7 +1,7 @@
 export interface User {
   id: number
   email: string
-  role: "admin" | "teacher" | "student"
+  role: "admin" | "teacher"
   status: "pending" | "approved" | "rejected" | "suspended"
 }
 
@@ -32,7 +32,6 @@ export interface AdminRole {
   roleName: string
   permissions: Record<string, boolean>
   canApproveTeachers: boolean
-  canApproveStudents: boolean
   canManageJobs: boolean
   canViewLogs: boolean
   canSuspendUsers: boolean
@@ -41,20 +40,23 @@ export interface AdminRole {
 
 export interface Job {
   id: number
-  teacherId: number
+  adminId?: number
   title: string
   description: string
   requirements: string
   salaryRange?: string
+  location?: string
   jobType: "full-time" | "part-time" | "contract"
   status: "active" | "closed" | "draft"
+  postedAt?: Date
 }
 
 export interface JobApplication {
   id: number
   jobId: number
-  studentId: number
+  teacherId: number
   status: "pending" | "accepted" | "rejected" | "withdrawn"
   coverLetter?: string
   resumeUrl?: string
+  appliedAt?: Date
 }
