@@ -259,7 +259,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                 <p className="text-muted-foreground">Welcome back, {user?.firstName}. Here's your overview.</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Available Jobs</CardTitle>
@@ -303,13 +303,13 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                     {availableJobs.length > 0 ? (
                         <div className="space-y-4">
                             {availableJobs.slice(0, 3).map((job) => (
-                                <div key={job.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
-                                    <div className="space-y-1">
-                                        <p className="font-medium">{job.title}</p>
-                                        <p className="text-sm text-muted-foreground">{job.location}</p>
+                                <div key={job.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4 last:border-0 last:pb-0">
+                                    <div className="space-y-1 min-w-0 flex-1">
+                                        <p className="font-medium truncate">{job.title}</p>
+                                        <p className="text-sm text-muted-foreground truncate">{job.location}</p>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <Badge variant="default">
+                                    <div className="flex items-center gap-2 sm:gap-3">
+                                        <Badge variant="default" className="text-xs">
                                             {job.jobType}
                                         </Badge>
                                         <Button size="sm" onClick={() => handleApply(job)}>
@@ -396,8 +396,8 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                             <h3 className="font-semibold text-lg">{app.jobTitle}</h3>
                                             <Badge variant={
                                                 app.status === "accepted" ? "default" :
-                                                app.status === "rejected" ? "destructive" :
-                                                "secondary"
+                                                    app.status === "rejected" ? "destructive" :
+                                                        "secondary"
                                             }>
                                                 {app.status}
                                             </Badge>
@@ -932,8 +932,8 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                             </div>
                                             <Badge variant={
                                                 application.status === 'accepted' ? 'default' :
-                                                application.status === 'pending' ? 'secondary' :
-                                                'destructive'
+                                                    application.status === 'pending' ? 'secondary' :
+                                                        'destructive'
                                             }>
                                                 {application.status}
                                             </Badge>
@@ -1042,7 +1042,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
             if (!mockThreadReplies[selectedThread.id]) {
                 mockThreadReplies[selectedThread.id] = []
             }
-            
+
             mockThreadReplies[selectedThread.id].push(reply)
             selectedThread.replies = mockThreadReplies[selectedThread.id].length
             selectedThread.lastActivity = new Date().toISOString()
@@ -1066,9 +1066,9 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
         // Announcement Detail View
         if (selectedAnnouncement) {
             return (
-                <div className="p-8 max-w-4xl mx-auto">
-                    <Button 
-                        variant="ghost" 
+                <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
+                    <Button
+                        variant="ghost"
                         onClick={handleBackToList}
                         className="mb-6 hover:bg-primary/10"
                     >
@@ -1078,9 +1078,9 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                     {/* Announcement Post */}
                     <Card className={selectedAnnouncement.isPinned ? "border-primary/50 bg-primary/5" : ""}>
-                        <CardContent className="p-8">
-                            <div className="flex items-start gap-4 mb-6">
-                                <Avatar className="h-12 w-12">
+                        <CardContent className="p-4 sm:p-6 md:p-8">
+                            <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                                <Avatar className="h-10 w-10 sm:h-12 sm:w-12 shrink-0">
                                     <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-lg">
                                         A
                                     </AvatarFallback>
@@ -1099,12 +1099,12 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                 </div>
                             </div>
 
-                            <h2 className="text-3xl font-bold mb-4">{selectedAnnouncement.title}</h2>
-                            <p className="text-muted-foreground text-lg mb-6 whitespace-pre-wrap leading-relaxed">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">{selectedAnnouncement.title}</h2>
+                            <p className="text-muted-foreground text-base sm:text-lg mb-4 sm:mb-6 whitespace-pre-wrap leading-relaxed">
                                 {selectedAnnouncement.content}
                             </p>
 
-                            <div className="flex items-center gap-6 pt-4 border-t">
+                            <div className="flex items-center gap-4 sm:gap-6 pt-4 border-t flex-wrap">
                                 <span className="flex items-center gap-2 text-muted-foreground">
                                     <Eye className="h-4 w-4" />
                                     <span className="text-sm font-medium">{selectedAnnouncement.views} views</span>
@@ -1133,9 +1133,9 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
             const replies = mockThreadReplies[selectedThread.id] || []
 
             return (
-                <div className="p-8 max-w-4xl mx-auto">
-                    <Button 
-                        variant="ghost" 
+                <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
+                    <Button
+                        variant="ghost"
                         onClick={handleBackToList}
                         className="mb-6 hover:bg-primary/10"
                     >
@@ -1154,9 +1154,9 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                     {/* Thread Post (Main Content) */}
                     <Card className="mb-6">
-                        <CardContent className="p-6">
-                            <div className="flex items-start gap-4 mb-4">
-                                <Avatar className="h-12 w-12">
+                        <CardContent className="p-4 sm:p-6">
+                            <div className="flex items-start gap-3 sm:gap-4 mb-4">
+                                <Avatar className="h-10 w-10 sm:h-12 sm:w-12 shrink-0">
                                     <AvatarFallback className="bg-primary/10 text-primary font-semibold text-lg">
                                         {selectedThread.authorName.split(" ").map((n: string) => n[0]).join("")}
                                     </AvatarFallback>
@@ -1174,7 +1174,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                 </div>
                             </div>
 
-                            <h2 className="text-2xl font-bold mb-3">{selectedThread.title}</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">{selectedThread.title}</h2>
                             <p className="text-muted-foreground mb-4 whitespace-pre-wrap">{selectedThread.content}</p>
 
                             {selectedThread.tags && selectedThread.tags.length > 0 && (
@@ -1221,7 +1221,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                         className="mb-2"
                                     />
                                     <div className="flex justify-end">
-                                        <Button 
+                                        <Button
                                             onClick={handlePostReply}
                                             disabled={!newReply.trim()}
                                             size="sm"
@@ -1240,7 +1240,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                         <h3 className="text-lg font-semibold mb-4">
                             {replies.length} {replies.length === 1 ? 'Reply' : 'Replies'}
                         </h3>
-                        
+
                         {replies.length === 0 ? (
                             <Card>
                                 <CardContent className="p-8 text-center">
@@ -1290,9 +1290,9 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
         // Forum List View
         return (
-            <div className="p-8">
+            <div className="p-4 sm:p-6 md:p-8 w-full max-w-full overflow-hidden">
                 <div className="mb-6">
-                    <h1 className="text-3xl font-bold">Community Forum</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold">Community Forum</h1>
                     <p className="text-muted-foreground mt-2">
                         Connect with fellow teachers, share experiences, and stay updated
                     </p>
@@ -1318,22 +1318,22 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                     <div className="space-y-3">
                         {mockAnnouncements.map((announcement) => (
-                            <Card 
-                                key={announcement.id} 
-                                className={`cursor-pointer hover:shadow-md transition-shadow ${announcement.isPinned ? "border-primary/50 bg-primary/5" : ""}`}
+                            <Card
+                                key={announcement.id}
+                                className={`cursor-pointer hover:shadow-md transition-shadow overflow-hidden ${announcement.isPinned ? "border-primary/50 bg-primary/5" : ""}`}
                                 onClick={() => handleAnnouncementClick(announcement)}
                             >
-                                <CardContent className="p-6">
+                                <CardContent className="p-4 sm:p-6 overflow-hidden">
                                     <div className="flex items-start justify-between gap-4">
-                                        <div className="flex-1">
+                                        <div className="flex-1 min-w-0 overflow-hidden">
                                             <div className="flex items-center gap-2 mb-2">
                                                 {announcement.isPinned && (
                                                     <Pin className="h-4 w-4 text-primary fill-primary" />
                                                 )}
-                                                <h3 className="font-semibold text-lg hover:text-primary transition-colors">{announcement.title}</h3>
+                                                <h3 className="font-semibold text-base sm:text-lg hover:text-primary transition-colors line-clamp-1">{announcement.title}</h3>
                                             </div>
-                                            <p className="text-muted-foreground mb-3">{announcement.content}</p>
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                            <p className="text-muted-foreground mb-3 line-clamp-2 break-words">{announcement.content}</p>
+                                            <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                                                 <span className="flex items-center gap-1">
                                                     <Avatar className="h-5 w-5">
                                                         <AvatarFallback className="text-xs bg-primary text-primary-foreground">
@@ -1365,12 +1365,12 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
 
                 {/* Teacher Threads Section */}
                 <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                         <h2 className="text-xl font-semibold flex items-center gap-2">
                             <MessageSquare className="h-5 w-5" />
                             Teacher Discussions
                         </h2>
-                        <Button onClick={() => setShowNewThreadForm(!showNewThreadForm)}>
+                        <Button onClick={() => setShowNewThreadForm(!showNewThreadForm)} size="sm" className="w-full sm:w-auto">
                             <Plus className="h-4 w-4 mr-2" />
                             New Thread
                         </Button>
@@ -1452,23 +1452,23 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                     {/* Thread List */}
                     <div className="space-y-3">
                         {mockForumThreads.map((thread) => (
-                            <Card 
-                                key={thread.id} 
-                                className="hover:shadow-md transition-shadow cursor-pointer"
+                            <Card
+                                key={thread.id}
+                                className="hover:shadow-md transition-shadow cursor-pointer overflow-hidden"
                                 onClick={() => handleThreadClick(thread)}
                             >
-                                <CardContent className="p-6">
-                                    <div className="flex items-start gap-4">
-                                        <Avatar className="h-10 w-10">
+                                <CardContent className="p-4 sm:p-6 overflow-hidden">
+                                    <div className="flex items-start gap-3 sm:gap-4">
+                                        <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                                             <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                                                 {thread.authorName.split(" ").map(n => n[0]).join("")}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <div className="flex-1">
+                                        <div className="flex-1 min-w-0 overflow-hidden">
                                             <div className="flex items-start justify-between gap-4 mb-2">
-                                                <div>
-                                                    <h3 className="font-semibold text-lg mb-1 hover:text-primary transition-colors">{thread.title}</h3>
-                                                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                                                <div className="min-w-0 flex-1">
+                                                    <h3 className="font-semibold text-base sm:text-lg mb-1 hover:text-primary transition-colors line-clamp-1">{thread.title}</h3>
+                                                    <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-2 flex-wrap">
                                                         <span className="font-medium">{thread.authorName}</span>
                                                         <span>•</span>
                                                         <span>{new Date(thread.createdAt).toLocaleDateString()}</span>
@@ -1479,8 +1479,8 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p className="text-muted-foreground mb-3 line-clamp-2">{thread.content}</p>
-                                            
+                                            <p className="text-muted-foreground mb-3 line-clamp-2 break-words">{thread.content}</p>
+
                                             {thread.tags && thread.tags.length > 0 && (
                                                 <div className="flex items-center gap-2 mb-3">
                                                     <Tag className="h-3 w-3 text-muted-foreground" />
@@ -1494,7 +1494,7 @@ export function TeacherDashboard({ activeView = "dashboard" }: TeacherDashboardP
                                                 </div>
                                             )}
 
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                                                 <span className="flex items-center gap-1">
                                                     <Eye className="h-3 w-3" />
                                                     {thread.views} views

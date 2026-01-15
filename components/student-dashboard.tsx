@@ -41,53 +41,52 @@ export function StudentDashboard({ activeView = "dashboard" }: StudentDashboardP
                 {jobs.length > 0 ? (
                     jobs.map((job) => (
                         <Card key={job.id}>
-                            <CardContent className="p-6">
-                                <div className="flex items-start justify-between">
+                            <CardContent className="p-4 sm:p-6">
+                                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                                     <div className="space-y-3 flex-1">
                                         <div className="flex items-center gap-3">
-                                            <Avatar className="h-12 w-12">
+                                            <Avatar className="h-10 w-10 sm:h-12 sm:w-12 shrink-0">
                                                 <AvatarFallback>
-                                                    <Briefcase className="h-6 w-6" />
+                                                    <Briefcase className="h-5 w-5 sm:h-6 sm:w-6" />
                                                 </AvatarFallback>
                                             </Avatar>
-                                            <div>
-                                                <h3 className="font-semibold text-lg">{job.title}</h3>
-                                                <p className="text-sm text-muted-foreground">{job.school}</p>
+                                            <div className="min-w-0 flex-1">
+                                                <h3 className="font-semibold text-base sm:text-lg truncate">{job.title}</h3>
+                                                <p className="text-sm text-muted-foreground truncate">{job.school}</p>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                        <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                                             <div className="flex items-center gap-1">
-                                                <MapPin className="h-4 w-4" />
+                                                <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 <span>{job.location}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
-                                                <Clock className="h-4 w-4" />
+                                                <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 <span>{job.type}</span>
                                             </div>
-                                            <Badge variant="outline">{job.subject}</Badge>
+                                            <Badge variant="outline" className="text-xs">{job.subject}</Badge>
                                         </div>
 
-                                        <p className="text-sm">{job.description}</p>
+                                        <p className="text-sm line-clamp-2 sm:line-clamp-none">{job.description}</p>
 
-                                        <div className="flex items-center gap-2 pt-2">
+                                        <div className="flex items-center gap-2 pt-1 flex-wrap">
                                             <Badge variant="secondary">{job.salary}</Badge>
-                                            <span className="text-sm text-muted-foreground">
+                                            <span className="text-xs sm:text-sm text-muted-foreground">
                                                 Posted {new Date(job.postedDate).toLocaleDateString()}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col gap-2 ml-4">
-                                        <Button
-                                            variant={savedJobs.includes(job.id) ? "default" : "outline"}
-                                            size="sm"
-                                            onClick={() => toggleSaveJob(job.id)}
-                                        >
-                                            <BookmarkIcon className="h-4 w-4 mr-1" />
-                                            {savedJobs.includes(job.id) ? "Saved" : "Save"}
-                                        </Button>
-                                    </div>
+                                    <Button
+                                        variant={savedJobs.includes(job.id) ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => toggleSaveJob(job.id)}
+                                        className="w-full sm:w-auto"
+                                    >
+                                        <BookmarkIcon className="h-4 w-4 mr-1" />
+                                        {savedJobs.includes(job.id) ? "Saved" : "Save"}
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
@@ -124,53 +123,52 @@ export function StudentDashboard({ activeView = "dashboard" }: StudentDashboardP
                 {jobs.filter(job => savedJobs.includes(job.id)).length > 0 ? (
                     jobs.filter(job => savedJobs.includes(job.id)).map((job) => (
                         <Card key={job.id}>
-                            <CardContent className="p-6">
-                                <div className="flex items-start justify-between">
+                            <CardContent className="p-4 sm:p-6">
+                                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                                     <div className="space-y-3 flex-1">
                                         <div className="flex items-center gap-3">
-                                            <Avatar className="h-12 w-12">
+                                            <Avatar className="h-10 w-10 sm:h-12 sm:w-12 shrink-0">
                                                 <AvatarFallback>
-                                                    <Briefcase className="h-6 w-6" />
+                                                    <Briefcase className="h-5 w-5 sm:h-6 sm:w-6" />
                                                 </AvatarFallback>
                                             </Avatar>
-                                            <div>
-                                                <h3 className="font-semibold text-lg">{job.title}</h3>
-                                                <p className="text-sm text-muted-foreground">{job.school}</p>
+                                            <div className="min-w-0 flex-1">
+                                                <h3 className="font-semibold text-base sm:text-lg truncate">{job.title}</h3>
+                                                <p className="text-sm text-muted-foreground truncate">{job.school}</p>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                        <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                                             <div className="flex items-center gap-1">
-                                                <MapPin className="h-4 w-4" />
+                                                <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 <span>{job.location}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
-                                                <Clock className="h-4 w-4" />
+                                                <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 <span>{job.type}</span>
                                             </div>
-                                            <Badge variant="outline">{job.subject}</Badge>
+                                            <Badge variant="outline" className="text-xs">{job.subject}</Badge>
                                         </div>
 
-                                        <p className="text-sm">{job.description}</p>
+                                        <p className="text-sm line-clamp-2 sm:line-clamp-none">{job.description}</p>
 
-                                        <div className="flex items-center gap-2 pt-2">
+                                        <div className="flex items-center gap-2 pt-1 flex-wrap">
                                             <Badge variant="secondary">{job.salary}</Badge>
-                                            <span className="text-sm text-muted-foreground">
+                                            <span className="text-xs sm:text-sm text-muted-foreground">
                                                 Posted {new Date(job.postedDate).toLocaleDateString()}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col gap-2 ml-4">
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => toggleSaveJob(job.id)}
-                                        >
-                                            <BookmarkIcon className="h-4 w-4 mr-1" />
-                                            Unsave
-                                        </Button>
-                                    </div>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => toggleSaveJob(job.id)}
+                                        className="w-full sm:w-auto"
+                                    >
+                                        <BookmarkIcon className="h-4 w-4 mr-1" />
+                                        Unsave
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>

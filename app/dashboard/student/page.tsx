@@ -57,7 +57,7 @@ export default function StudentDashboardPage() {
                     <Separator orientation="vertical" className="mr-2 h-4" />
                     <h1 className="text-sm font-medium">{viewTitles[activeView] || "Dashboard"}</h1>
                 </header>
-                <main className="flex-1 overflow-auto bg-muted/30 p-6">
+                <main className="flex-1 overflow-auto bg-muted/30 p-4 md:p-6">
                     <StudentDashboard activeView={activeView} />
                 </main>
             </SidebarInset>

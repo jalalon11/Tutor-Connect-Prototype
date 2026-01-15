@@ -51,7 +51,7 @@ export default function AdminLayout({
                     <Separator orientation="vertical" className="mr-2 h-4" />
                     <h1 className="text-sm font-medium">{viewTitles[activeView] || "Admin Dashboard"}</h1>
                 </header>
-                <main className="flex-1 overflow-auto bg-muted/30 p-6">
+                <main className="flex-1 overflow-auto bg-muted/30 p-4 md:p-6">
                     <AdminDashboard activeView={activeView} />
                 </main>
             </SidebarInset>

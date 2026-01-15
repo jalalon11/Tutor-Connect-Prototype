@@ -27,7 +27,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
 
   const jobs = Object.values(mockJobs).filter((job: any) => job.status === "open")
-  
+
   // Filter jobs based on search query
   const filteredJobs = jobs.filter((job: any) => {
     if (!searchQuery) return true
@@ -72,12 +72,12 @@ export default function HomePage() {
       {/* Navigation */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <GraduationCap className="h-5 w-5 text-primary-foreground" />
+          <div className="flex h-14 sm:h-16 items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg bg-primary">
+                <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-semibold">TeachConnect</span>
+              <span className="text-lg sm:text-xl font-semibold">TeachConnect</span>
             </div>
             <nav className="hidden md:flex items-center gap-6">
               <a
@@ -95,9 +95,9 @@ export default function HomePage() {
                 How It Works
               </a>
             </nav>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Link href="/login">
-                <Button variant="ghost" size="sm">Sign In</Button>
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex">Sign In</Button>
               </Link>
               <Link href="/login">
                 <Button size="sm">Get Started</Button>
@@ -108,19 +108,19 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 sm:py-16 md:py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge variant="secondary" className="mb-4">
+          <Badge variant="secondary" className="mb-3 sm:mb-4">
             Teaching Opportunities Platform
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
             Find Your Next Teaching Opportunity
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto">
             Browse teaching job postings from verified institutions and apply with ease.
             Join our community of professional educators.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex gap-3 sm:gap-4 justify-center flex-wrap">
             <Link href="/login">
               <Button size="lg" className="gap-2">
                 <Briefcase className="h-4 w-4" />
@@ -142,13 +142,13 @@ export default function HomePage() {
       <Separator />
 
       {/* Job Listings */}
-      <section id="jobs" className="py-16 px-4">
+      <section id="jobs" className="py-10 sm:py-12 md:py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
             <h2 className="text-2xl font-semibold tracking-tight mb-2">Available Teaching Positions</h2>
             <p className="text-muted-foreground">Browse current job openings posted by our administrators</p>
           </div>
-          
+
           {/* Search Bar */}
           <div className="mb-6">
             <div className="relative max-w-xl">
@@ -172,24 +172,24 @@ export default function HomePage() {
             {filteredJobs.length > 0 ? (
               filteredJobs.map((job: any) => (
                 <Card key={job.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between gap-4">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1 space-y-3">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h3 className="font-semibold text-lg">{job.title}</h3>
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-semibold text-base sm:text-lg truncate">{job.title}</h3>
                             <p className="text-sm text-muted-foreground">Posted by Admin</p>
                           </div>
-                          <Badge className="bg-green-500">Active</Badge>
+                          <Badge className="bg-green-500 shrink-0">Active</Badge>
                         </div>
-                        <p className="text-sm leading-relaxed">{job.description}</p>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                        <p className="text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">{job.description}</p>
+                        <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                           <span className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
+                            <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                             {job.location}
                           </span>
                           <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                             {job.jobType}
                           </span>
                           <span className="flex items-center gap-1 font-medium text-foreground">
@@ -197,7 +197,7 @@ export default function HomePage() {
                           </span>
                         </div>
                       </div>
-                      <Button onClick={() => handleApply(job.id)} className="shrink-0">
+                      <Button onClick={() => handleApply(job.id)} className="w-full sm:w-auto shrink-0">
                         Apply Now
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
@@ -221,7 +221,7 @@ export default function HomePage() {
       <Separator />
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-16 px-4 bg-muted/30">
+      <section id="how-it-works" className="py-10 sm:py-12 md:py-16 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-semibold tracking-tight mb-2">How It Works</h2>
@@ -301,23 +301,23 @@ export default function HomePage() {
       </section>
 
       {/* Demo Credentials */}
-      <section className="py-16 px-4">
+      <section className="py-10 sm:py-12 md:py-16 px-4">
         <div className="max-w-2xl mx-auto">
           <Card>
-            <CardHeader className="text-center">
-              <CardTitle>Try the Demo</CardTitle>
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-lg sm:text-xl">Try the Demo</CardTitle>
               <CardDescription>Use these credentials to explore the platform</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-muted text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="p-3 sm:p-4 rounded-lg bg-muted text-center">
                   <p className="text-xs font-medium text-muted-foreground mb-2">Admin</p>
-                  <p className="text-xs">admin@teachconnect.com</p>
+                  <p className="text-xs break-all">admin@teachconnect.com</p>
                   <p className="text-xs text-muted-foreground">admin123</p>
                 </div>
-                <div className="p-4 rounded-lg bg-muted text-center">
+                <div className="p-3 sm:p-4 rounded-lg bg-muted text-center">
                   <p className="text-xs font-medium text-muted-foreground mb-2">Teacher</p>
-                  <p className="text-xs">john@example.com</p>
+                  <p className="text-xs break-all">john@example.com</p>
                   <p className="text-xs text-muted-foreground">teacher123</p>
                 </div>
               </div>
@@ -327,13 +327,13 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8 px-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <footer className="border-t py-6 sm:py-8 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
           <div className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
             <span className="font-semibold">TeachConnect</span>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-right">
             © 2026 TeachConnect. All rights reserved.
           </p>
         </div>

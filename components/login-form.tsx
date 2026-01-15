@@ -120,7 +120,7 @@ export function LoginForm() {
       // Show success message
       setRegSuccess(true)
       setRegLoading(false)
-      
+
       // Reset form after a delay
       setTimeout(() => {
         setFormData({
@@ -145,7 +145,7 @@ export function LoginForm() {
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:30px_30px]"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
-        
+
         <Link href="/" className="block hover:opacity-90 transition-opacity relative z-10">
           <div className="flex items-center gap-3 cursor-pointer">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20">
@@ -162,7 +162,7 @@ export function LoginForm() {
           <p className="text-xl text-primary-foreground/90 leading-relaxed">
             Join our community of professional educators. Browse opportunities, submit applications, and advance your teaching career.
           </p>
-          
+
           <div className="space-y-4 pt-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 backdrop-blur-sm">
@@ -191,7 +191,7 @@ export function LoginForm() {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12 bg-background">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-12 bg-background">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
@@ -206,8 +206,8 @@ export function LoginForm() {
             <p className="text-muted-foreground">Sign in to your account or register as a teacher</p>
           </div>
 
-          <Card className="border-0 shadow-xl lg:shadow-2xl">
-            <CardContent className="pt-6">
+          <Card className="border-0 shadow-lg sm:shadow-xl lg:shadow-2xl">
+            <CardContent className="p-4 sm:p-6">
               <Tabs defaultValue="login" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6 h-11">
                   <TabsTrigger value="login" className="font-medium">Sign In</TabsTrigger>
@@ -265,7 +265,7 @@ export function LoginForm() {
                         onClick={() => handleDemoLogin("admin")}
                         variant="outline"
                         size="sm"
-                        className="text-xs h-9"
+                        className="text-xs h-9 px-2"
                       >
                         Admin
                       </Button>
@@ -274,7 +274,7 @@ export function LoginForm() {
                         onClick={() => handleDemoLogin("teacher")}
                         variant="outline"
                         size="sm"
-                        className="text-xs h-9"
+                        className="text-xs h-9 px-2"
                       >
                         Teacher
                       </Button>
@@ -294,7 +294,7 @@ export function LoginForm() {
                       </AlertDescription>
                     </Alert>
                   )}
-                  
+
                   {regError && (
                     <Alert variant="destructive" className="mb-6">
                       <AlertCircle className="h-4 w-4" />
@@ -320,7 +320,7 @@ export function LoginForm() {
                       </div>
                     </div>
                   )}
-                  
+
                   {!regSuccess && regStep === 1 ? (
                     <form
                       onSubmit={(e) => {
